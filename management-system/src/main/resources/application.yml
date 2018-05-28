@@ -95,7 +95,7 @@ pagehelper:
   
 logging:
   level:
-    cc:
-      mrbird:
+    top:
+      zhoumy:
         system:
           dao: warn
