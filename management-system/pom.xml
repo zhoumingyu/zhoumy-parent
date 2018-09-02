@@ -7,7 +7,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>management-system</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>managementSystem</name>
 	<description>Authority Management System</description>
 	<dependencies>
@@ -159,7 +159,16 @@
 			<artifactId>druid-spring-boot-starter</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
+			<version>4.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+			<version>1.1.0</version>
+		</dependency>
 	</dependencies>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -192,7 +201,13 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>top.zhoumy.Application</mainClass>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

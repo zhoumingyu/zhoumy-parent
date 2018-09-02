@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="edge" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+
+
+<title>瓦力工厂</title>
+<link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.ico}" />
+<link rel="stylesheet" th:href="@{/css/regedit.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/css/iCheck/minimal/green.css}"
+	type="text/css">
+<link rel="stylesheet" th:href="@{/css/app.css}" type="text/css">
+<!-- animate -->
+<link rel="stylesheet" th:href="@{/css/animate/animate.min.css}"
+	type="text/css">
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/iCheck/icheck.js}"></script>
+<script th:src="@{/js/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+</head>
+<style>
+</style>
+<body onload="reloadRegeditCode()">
+	<!-- Form-->
+	<div class="form">
+		<div class="form-toggle"></div>
+		<div class="form-panel one">
+			<div style="text-align: center;" class="form-header">
+				<h1>会员注册</h1>
+			</div>
+			<div class="form-content">
+				<div class="form-group">
+					<label for="phone">手机号码</label> <input name="phone" type="number"
+						pattern="\d*" placeholder="请输入手机号码" />
+				</div>
+				<div id="codedivimg" class="form-group"
+					style="display: inline-block">
+					<label for="regeditcode">图片验证码</label> <input type="text"
+						placeholder="请输入图片验证码" name="regeditcode"
+						style="width: 50%; display: inline-block" /> <img
+						id="validateCodeImg" onclick="reloadRegeditCode()"
+						style="display: inline-block" />
+				</div>
+				<div id="codedivimgbtn" class="form-group">
+					<button onclick="sendCode(this)" id="loginButton">获取手机验证码</button>
+				</div>
+				<div id="codediv" class="form-group">
+					<label for="code">手机验证码</label><input type="button" id="reSend"
+						style="height: 32px; width: 120px;" value="" onclick="reSend()" /><input
+						type="text" name="code" placeholder="请输入手机验证码" />
+				</div>
+				<div style="text-align: center;" class="form-group">
+					<button onclick="regedit()" id="loginButton">注册</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-th-include="common/footer"></div>
+</body>
+
+<script th:inline="javascript">
+		var ctx = [[@{/}]];
+</script>
+<script data-th-src="@{/js/app/regedit.js}"></script>
+</html>

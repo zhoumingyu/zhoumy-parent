@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhoumy.system.dao.UserWaliMapper">
+	<resultMap id="BaseResultMap" type="top.zhoumy.system.domain.UserWali">
+		<!-- WARNING - @mbg.generated -->
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+
+	<select id="getUserPhoneCodeByPhone" resultMap="BaseResultMap">
+		select * from
+		t_user_wali
+		where PHONE = #{phone}
+	</select>
+
+	<select id="findUserWali" resultMap="BaseResultMap"
+		parameterType="top.zhoumy.system.domain.UserWali">
+		select * from
+		t_user_wali u order by u.id
+	</select>
+</mapper>
