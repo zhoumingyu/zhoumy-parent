@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright ${license.git.copyrightYears} the original author or authors. 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<!DOCTYPE generatorConfiguration 
+ SYSTEM "mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<!-- 配置属性文件，这样有变更只需改配置文件 <properties resource="generatorConfig.properties"/> -->
+	<properties resource="generatorConfig.properties" />
+	<!-- 制定mysql的驱动包的路径 千万别放中文路径下 类似hibernate生成持久化类和映射文件的作用 -->
+	<!--<classPathEntry location="${jdbcJarPath}" /> -->
+
+	<!-- 配置数据源和生成的代码所存放的位置 -->
+	<context id="itcast" targetRuntime="core.daylife.IntrospectedTableMyBatis3CustomImpl">
+		<!-- 是否生成注释 true不生成 false生成 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}" />
+		<!-- 所生成的实体类的位置默认资源包src -->
+		<javaModelGenerator targetPackage="top.zhoumy.system.domain"
+			targetProject="" />
+
+		<!-- 所生成的sqlMap的影射文件的位置,默认资源包src -->
+		<sqlMapGenerator targetPackage="com.aidou.core.dao.mapper"
+			targetProject="" />
+		<javaClientGenerator targetPackage="com.aidou.core.dao"
+			type="CUSTOMMAPPER" targetProject="" />
+
+		<javaServiceGenerator targetPackage="com.aidou.core.service"
+			targetProject="" implementationPackage="com.aidou.core.service.impl" />
+
+		<javaControllerGenerator targetPackage="com.aidou.core.api.controller"
+			targetProject="">
+		</javaControllerGenerator>
+		<javaJspGenerator targetProject="">
+		</javaJspGenerator>
+		<!-- 为哪些表生成代码 tableName:表名 schema:不用填写 -->
+		<table schema="" tableName="${tablename}" domainObjectName="">
+			<property name="useActualColumnNames" value="false" />
+			<property name="rootInterface"
+				value="com.aidou.core.common.repository.mybatis.BaseDao"></property>
+			<property name="serviceInterface" value="com.aidou.core.common.service.BaseService"></property>
+			<property name="serviceInterfaceImpl"
+				value="com.aidou.core.common.service.impl.BaseServiceImpl"></property>
+		</table>
+	</context>
+</generatorConfiguration>
