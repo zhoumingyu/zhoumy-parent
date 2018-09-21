@@ -27,7 +27,6 @@ import top.zhoumy.common.util.vcode.GifCaptcha;
 import top.zhoumy.system.domain.User;
 import top.zhoumy.system.service.UserService;
 
-
 @Controller
 public class LoginController extends BaseController {
 
@@ -86,7 +85,11 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping("/")
-	public String redirectIndex() {
+	public String redirectIndex(Model model, String login) {
+		if (login != null && login.equals("login")) {
+			Session session = super.getSession();
+			return "redirect:/api/login";
+		}
 		return "redirect:/index";
 	}
 
@@ -97,9 +100,12 @@ public class LoginController extends BaseController {
 
 	@Log("访问系统")
 	@RequestMapping("/index")
-	public String index(Model model) {
+	public String index(Model model, String login) {
 		User user = super.getCurrentUser();
 		model.addAttribute("user", user);
-		return "index";
+		if (login != null && login.equals("login"))
+			return "redirect:/api/login";
+		else
+			return "redirect:/api/waliindex";
 	}
 }

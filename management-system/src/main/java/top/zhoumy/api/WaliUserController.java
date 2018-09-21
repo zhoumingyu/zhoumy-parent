@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import top.zhoumy.alisms.SmsUtils;
+//import top.zhoumy.alisms.SmsUtils;
 import top.zhoumy.common.controller.BaseController;
 import top.zhoumy.common.domain.ResponseBo;
 import top.zhoumy.common.util.vcode.Captcha;
@@ -37,13 +37,14 @@ public class WaliUserController extends BaseController {
 	@Autowired
 	UserWaliService userWaliService;
 
-	@RequestMapping("index")
+	@RequestMapping("login")
 	public String wali() {
-		return "api/index";
+		
+		return "api/login";
 	}
 
 	@RequestMapping("waliindex")
-	public String Index() {
+	public String Index(String login) {
 		return "api/waliindex";
 	}
 
@@ -60,6 +61,24 @@ public class WaliUserController extends BaseController {
 			Session session = super.getSession();
 			session.removeAttribute("_regeditcode");
 			session.setAttribute("_regeditcode", captcha.text().toLowerCase());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@GetMapping(value = "loginGifCode")
+	public void getLoginGifCode(HttpServletResponse response, HttpServletRequest request) {
+		try {
+			response.setHeader("Pragma", "No-cache");
+			response.setHeader("Cache-Control", "no-cache");
+			response.setDateHeader("Expires", 0);
+			response.setContentType("image/gif");
+
+			Captcha captcha = new GifCaptcha(100, 30, 4);
+			captcha.out(response.getOutputStream());
+			Session session = super.getSession();
+			session.removeAttribute("_logincode");
+			session.setAttribute("_logincode", captcha.text().toLowerCase());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,7 +135,39 @@ public class WaliUserController extends BaseController {
 			// 发送手机验证码
 			if (userPhoneCodeService.addOrUpdate(phone, phoneCode) > 0) {
 				logger.info("手机号：" + phone + "短信验证码：" + phoneCode);
-				SmsUtils.sendSms(phone, phoneCode);
+				// SmsUtils.sendSms(phone, phoneCode);
+				return ResponseBo.ok();
+			} else {
+				return ResponseBo.error("请稍后再试");
+			}
+
+		} catch (Exception e) {
+			return ResponseBo.error("！");
+		}
+	}
+
+	@PostMapping("/getLoginPhoneCode")
+	@ResponseBody
+	public ResponseBo LoginGifCode(String phone, String code) {
+		if (!StringUtils.isNotBlank(code)) {
+			return ResponseBo.warn("验证码不能为空！");
+		}
+		Session session = super.getSession();
+		String sessionCode = (String) session.getAttribute("_logincode");
+		if (!code.toLowerCase().equals(sessionCode)) {
+			return ResponseBo.warn("验证码错误！");
+		}
+		try {
+
+			UserWali wali = userWaliService.getUser(phone);
+			if (wali != null) {
+				return ResponseBo.error("已经注册成功，不能重复注册");
+			}
+			String phoneCode = getRandNum(1, 999999);
+			// 发送手机验证码
+			if (userPhoneCodeService.addOrUpdate(phone, phoneCode) > 0) {
+				logger.info("手机号：" + phone + "短信验证码：" + phoneCode);
+				// SmsUtils.sendSms(phone, phoneCode);
 				return ResponseBo.ok();
 			} else {
 				return ResponseBo.error("请稍后再试");

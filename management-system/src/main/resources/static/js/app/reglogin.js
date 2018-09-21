@@ -6,20 +6,12 @@ $(document).ready(function() {
 		increaseArea : '20%'
 	});
 	$("#codediv").hide();
-	var query = window.location.search.substring(1);
-	var vars = query.split("&");
-	console.log(vars);
-	for (var i = 0; i < vars.length; i++) {
-		var pair = vars[i].split("=");
-		if (pair[0] == "login") {
-			window.location.href = "api/login";
-		}
-	}
+	
 });
 
 function reloadRegeditCode() {
 	$("#validateCodeImg").attr("src",
-			ctx + "api/regeidtGifCode?data=" + new Date() + "");
+			ctx + "api/loginGifCode?data=" + new Date() + "");
 }
 
 var clock = '';
@@ -39,7 +31,7 @@ function sendCode(thisBtn) {
 	}
 	$.ajax({
 		type : "post",
-		url : ctx + "api/getPhoneCode",
+		url : ctx + "api/getLoginPhoneCode",
 		data : {
 			"phone" : phone,
 			"code" : code

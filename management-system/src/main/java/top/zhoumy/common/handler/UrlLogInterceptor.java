@@ -35,7 +35,10 @@ public class UrlLogInterceptor implements HandlerInterceptor {
 		if (arg0.getParameterMap() != null && !arg0.getParameterMap().isEmpty())
 			for (Entry<String, String[]> itemKey : arg0.getParameterMap().entrySet()) {
 				sb.append("key:" + itemKey.getKey());
-				sb.append("value:" + itemKey.getValue().toString());
+				sb.append("value:");
+				for (String item : itemKey.getValue()) {
+					sb.append(item);
+				}
 			}
 		logger.info(sb.toString());
 		return true;

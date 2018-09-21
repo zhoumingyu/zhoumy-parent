@@ -40,8 +40,9 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		// shiroFilterFactoryBean.setLoginUrl("/api/waliindex");
-		shiroFilterFactoryBean.setLoginUrl("/login");
+		// 前台登录功能配置
+		// shiroFilterFactoryBean.setLoginUrl("/waliindex");
+		shiroFilterFactoryBean.setLoginUrl("/api/login");
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
