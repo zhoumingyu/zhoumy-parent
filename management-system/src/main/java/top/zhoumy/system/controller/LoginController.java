@@ -90,7 +90,8 @@ public class LoginController extends BaseController {
 			Session session = super.getSession();
 			return "redirect:/api/login";
 		}
-		return "redirect:/index";
+		Session session = super.getSession();
+		return "redirect:/api/waliindex";
 	}
 
 	@GetMapping("/403")

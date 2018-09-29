@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mchange.v1.util.StringTokenizerUtils;
+
 //import top.zhoumy.alisms.SmsUtils;
 import top.zhoumy.common.controller.BaseController;
 import top.zhoumy.common.domain.ResponseBo;
+import top.zhoumy.common.util.HttpUtils;
 import top.zhoumy.common.util.vcode.Captcha;
 import top.zhoumy.common.util.vcode.GifCaptcha;
 import top.zhoumy.system.domain.UserPhoneCode;
@@ -38,9 +41,16 @@ public class WaliUserController extends BaseController {
 	UserWaliService userWaliService;
 
 	@RequestMapping("login")
-	public String wali() {
-		
-		return "api/login";
+	public String wali(String code, String state) {
+		if (StringUtils.isEmpty(code)) {
+			return "api/index";
+		} else {
+			String param = "grant_type=client_credential&appid=" + WxParamters.APP_ID + "&secret="
+					+ WxParamters.APP_SECRET;
+			String result = HttpUtils.sendGet(WxParamters.ACCESS_TOKEN_URL, param);
+			return "api/login";
+		}
+
 	}
 
 	@RequestMapping("waliindex")
@@ -160,8 +170,8 @@ public class WaliUserController extends BaseController {
 		try {
 
 			UserWali wali = userWaliService.getUser(phone);
-			if (wali != null) {
-				return ResponseBo.error("已经注册成功，不能重复注册");
+			if (wali == null) {
+				return ResponseBo.error("无用户信息不能登录");
 			}
 			String phoneCode = getRandNum(1, 999999);
 			// 发送手机验证码
